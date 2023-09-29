@@ -1,6 +1,8 @@
 import customtkinter
 from tkinter import *
 from forex_python.converter import CurrencyRates
+import tkinter import messagebox
+
 
 app=customtkinter.CTk()
 app.config(bg="#202630")
@@ -29,18 +31,20 @@ txt=StringVar()
 
 
 def convert():
-    from_currency=variable1.get()
-    to_currency=variable2.get()
-    c=CurrencyRates()
-    amt=c.convert(from_currency,to_currency,float(amount_entry.get()))
-    amount=float("{:.3f}".format(amt))
-    txt.set(amount)
-    result_label=customtkinter.CTkLabel(app,textvariable=txt,text_font=('Arial',30,'bold',fg_color="#202630",text_color="#FFFFFF",width=50)
-    result_label.place(x=125,y=350)
-
+    try:
+        from_currency=variable1.get()
+        to_currency=variable2.get()
+        c=CurrencyRates()
+        amt=c.convert(from_currency,to_currency,float(amount_entry.get()))
+        amount=float("{:.3f}".format(amt))
+        txt.set(amount)
+        result_label=customtkinter.CTkLabel(app,textvariable=txt,text_font=('Arial',30,'bold',fg_color="#202630",text_color="#FFFFFF",width=50)
+        result_label.place(x=125,y=350)
+    except:
+        messagebox.showerror(title="Error",message="Enter a valid number.")    
 
 def reset():
-    amount_entry.delete(0,END)    
+    amount_entry.delete(0,END)
 
 
 from_menu=customtkinter.CTkComboBox(app,variable=variable1,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
