@@ -1,55 +1,51 @@
-import tkinter as tk
-from tkinter import ttk
-import requests
+import customtkinter
+from tkinter import *
+from forex_python.converter import CurrencyRates
 
-# Function to convert currency
-def convert_currency():
-    amount = float(entry_amount.get())
-    from_currency = combo_from_currency.get()
-    to_currency = combo_to_currency.get()
-    
-    # Fetch real-time exchange rates from Open Exchange Rates API
-    api_key = 'YOUR_API_KEY'  # Replace with your actual API key
-    url = f'https://open.er-api.com/v6/latest/{from_currency}/{to_currency}'
-    response = requests.get(url)
-    data = response.json()
-    
-    # Calculate the converted amount
-    converted_amount = amount * data['rate']
-    
-    # Update the result label
-    result_label.config(text=f"{amount} {from_currency} = {converted_amount:.2f} {to_currency}")
+app=customtkinter.CTk()
+app.config(bg="#202630")
+app.geometry ("400x450")
+app.title("Currency Converter")
+img=PhotoImage(file="")
+photo_label=customtkinter.CTkLabel(app,fg="#202630",image=img)
+photo_label.place(x=0,y=0)
+app.iconphoto(False, img)
 
-# Create the main window
-root = tk.Tk()
-root.title("Currency Converter")
 
-# Create and configure widgets
-label_from_currency = tk.Label(root, text="From Currency:")
-label_to_currency = tk.Label(root, text="To Currency:")
-label_amount = tk.Label(root, text="Amount:")
-result_label = tk.Label(root, text="Result:")
 
-combo_from_currency = ttk.Combobox(root)
-combo_to_currency = ttk.Combobox(root)
-entry_amount = ttk.Entry(root)
 
-convert_button = ttk.Button(root, text="Convert", command=convert_currency)
+from_label=customtkinter.CTkLabel (app,text="From", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
+from_label.place(x=10,y=150)
 
-# Place widgets on the grid
-label_from_currency.grid(row=0, column=0)
-label_to_currency.grid(row=1, column=0)
-label_amount.grid(row=2, column=0)
-result_label.grid(row=4, column=0, columnspan=2)
+to_label=customtkinter.CTkLabel (app,text="To", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
+to_label.place(x=248,y=150)
 
-combo_from_currency.grid(row=0, column=1)
-combo_to_currency.grid(row=1, column=1)
-entry_amount.grid(row=2, column=1)
-convert_button.grid(row=3, column=0, columnspan=2)
 
-# Set default values for currency combo boxes
-combo_from_currency.set("USD")
-combo_to_currency.set("EUR")
+currency_list=["IND","USD","CNY","DKK","EUR","GBP"]
 
-# Run the Tkinter main loop
-root.mainloop()
+variable1=StringVar()
+variable2=StringVar()
+
+
+from_menu=customtkinter.CTkComboBox(app,variable=variable1,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
+from_menu.place(x=10,y=180)
+
+to_menu=customtkinter.CTkComboBox(app,variable=variable2,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
+to_menu.place(x=250,y=180)
+
+
+amount_entry=customtkinter.CTkEntry(app,text_font=('Arial',20,'bold'),text_color="#000000",justify=CENTER,width=370,fg_color="#FFFFFF",border_color="#FFFFFF")
+amount_entry.place(x=18,y=240)
+
+
+convert_button=customtkinter.CTkButton(app,text="Convert",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#710193",hover_color"#710193")
+convert_button.place(x=50,y=300)
+
+reset_button=customtkinter.CTkButton(app,text="Reset",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#bdSb15",hover_color"#bdSb15")
+reset_button.place(x=200,y=300)
+
+
+
+
+
+app.mainloop()
