@@ -3,12 +3,12 @@ import tkinter as tk
 # Manually defined exchange rates (as of a specific date, not up-to-date)
 exchange_rates = {
     "USD": 1.0,
-    "EUR": 0.88,
+    "EUR": 0.94,
     "GBP": 0.77,
-    "JPY": 109.27,
+    "JPY": 149.68,
     "CAD": 1.28,
-    "AUD": 1.37,
-    "INR": 74.64,
+    "AUD": 1.58,
+    "INR": 83.28,
     "CNY": 6.38
 }
 
