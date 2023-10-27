@@ -1,89 +1,67 @@
-import customtkinter as ctk
 import tkinter as tk
-import customtkinter
-import customtkinter as ctk
-from tkinter import *
-from forex_python.converter import CurrencyRates
-from tkinter import messagebox
-from tkinter import messagebox
 
+# Manually defined exchange rates (as of a specific date, not up-to-date)
+exchange_rates = {
+    "USD": 1.0,
+    "EUR": 0.88,
+    "GBP": 0.77,
+    "JPY": 109.27,
+    "CAD": 1.28,
+    "AUD": 1.37,
+    "INR": 74.64,
+    "CNY": 6.38
+}
 
-app=ctk.CTk()
-app=customtkinter.CTk()
-app=ctk.CTk()
-app.config(bg="#202630")
-app.geometry ("400x450")
-app.title("Currency Converter")
+# Function to perform currency conversion
+def convert_currency():
+    amount = float(entry_amount.get())
+    from_currency = combo_from_currency.get()
+    to_currency = combo_to_currency.get()
 
+    if from_currency == to_currency:
+        converted_amount.set(amount)
+    else:
+        converted_amount.set(round(amount * exchange_rates[to_currency] / exchange_rates[from_currency], 2))
 
+# Create a Tkinter window
+window = tk.Tk()
+window.title("Currency Converter")
 
-from_label=ctk.CTkLabel(app,text="From", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
-from_label=ctk.CTkLabel(app,text="From", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
+# Create labels, entry fields, and buttons
+label_from_currency = tk.Label(window, text="From Currency:")
+label_to_currency = tk.Label(window, text="To Currency:")
+label_amount = tk.Label(window, text="Amount:")
+label_result = tk.Label(window, text="Converted Amount:")
 
-from_label=customtkinter.CTkLabel (app,text="From", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
-from_label.place(x=10,y=150)
+combo_from_currency = tk.StringVar()
+combo_to_currency = tk.StringVar()
+entry_amount = tk.DoubleVar()
+converted_amount = tk.DoubleVar()
 
-to_label=ctk.CTkLabel (app,text="To", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
-to_label=customtkinter.CTkLabel (app,text="To", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
-to_label=ctk.CTkLabel (app,text="To", text_font=('Arial',15, 'bold'), fg_color="#202630",text_color="#FFFFFF",width=1)
-to_label.place(x=248,y=150)
+combo_from_currency = tk.StringVar()
+combo_from_currency.set("USD")
+combo_to_currency = tk.StringVar()
+combo_to_currency.set("EUR")
 
+entry_from_currency = tk.OptionMenu(window, combo_from_currency, *exchange_rates.keys())
+entry_to_currency = tk.OptionMenu(window, combo_to_currency, *exchange_rates.keys())
+entry_amount = tk.Entry(window, textvariable=entry_amount)
+entry_result = tk.Label(window, textvariable=converted_amount)
 
-currency_list=["IND","USD","CNY","DKK","EUR","GBP"]
+convert_button = tk.Button(window, text="Convert", command=convert_currency)
 
-variable1=StringVar()
-variable2=StringVar()
-txt=StringVar()
+# Arrange widgets in the window using the grid layout
+label_from_currency.grid(row=0, column=0)
+label_to_currency.grid(row=1, column=0)
+label_amount.grid(row=2, column=0)
+label_result.grid(row=3, column=0)
 
+entry_from_currency.grid(row=0, column=1)
+entry_to_currency.grid(row=1, column=1)
+entry_amount.grid(row=2, column=1)
+entry_result.grid(row=3, column=1)
 
-def convert():
-    try:
-        from_currency=variable1.get()
-        to_currency=variable2.get()
-        c=CurrencyRates()
-        amt=c.convert(from_currency,to_currency,float(amount_entry.get()))
-        amount=float("{:.3f}".format(amt))
-        txt.set(amount)
-        result_label=ctk.CTkLabel(app,textvariable=txt,text_font=('Arial',30,'bold'),fg_color="#202630",text_color="#FFFFFF",width=50)
-        result_label=customtkinter.CTkLabel(app,textvariable=txt,text_font=('Arial',30,'bold'),fg_color="#202630",text_color="#FFFFFF",width=50)
-        result_label=ctk.CTkLabel(app,textvariable=txt,text_font=('Arial',30,'bold'),fg_color="#202630",text_color="#FFFFFF",width=50)
-        result_label.place(x=125,y=350)
-    except:
-        messagebox.showerror(title="Error",message="Enter a valid number.")    
+convert_button.grid(row=4, columnspan=2)
 
-def reset():
-    amount_entry.delete(0,END)
-
-
-from_menu=ctk.CTkComboBox(app,variable=variable1,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-from_menu=customtkinter.CTkComboBox(app,variable=variable1,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-from_menu=ctk.CTkComboBox(app,variable=variable1,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-from_menu.place(x=10,y=180)
-
-to_menu=ctk.CTkComboBox(app,variable=variable2,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-to_menu=customtkinter.CTkComboBox(app,variable=variable2,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-to_menu=ctk.CTkComboBox(app,variable=variable2,values=currency_list,text_font=('Arial',12,'bold'),dropdown_text_font=('Arial',12,'bold'),fg_color="#FFFFFF",text_color="#000000",button_color="#710193",button_hover_color="#710193",border_color="#FFFFFF",dropdown_color="#FFFFFF",dropdown_hover_color="#00FF00",dropdown_text_color="#000000")
-to_menu.place(x=250,y=180)
-
-
-amount_entry=ctk.CTkEntry(app,text_font=('Arial',20,'bold'),text_color="#000000",justify=CENTER,width=370,fg_color="#FFFFFF",border_color="#FFFFFF")
-amount_entry=customtkinter.CTkEntry(app,text_font=('Arial',20,'bold'),text_color="#000000",justify=CENTER,width=370,fg_color="#FFFFFF",border_color="#FFFFFF")
-amount_entry=ctk.CTkEntry(app,text_font=('Arial',20,'bold'),text_color="#000000",justify=CENTER,width=370,fg_color="#FFFFFF",border_color="#FFFFFF")
-amount_entry.place(x=18,y=240)
-
-
-convert_button=ctk.CTkButton(app,command=convert,text="Convert",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#710193",hover_color="#710193")
-convert_button=customtkinter.CTkButton(app,command=convert,text="Convert",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#710193",hover_color="#710193")
-convert_button=ctk.CTkButton(app,command=convert,text="Convert",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#710193",hover_color="#710193")
-convert_button.place(x=50,y=300)
-
-reset_button=ctk.CTkButton(app,command=reset,text="Reset",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#bdSb15",hover_color="#bdSb15")
-reset_button=customtkinter.CTkButton(app,command=reset,text="Reset",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#bdSb15",hover_color="#bdSb15")
-reset_button=ctk.CTkButton(app,command=reset,text="Reset",text_font=('Arial',20,'bold'),texxt_color="#FFFFFF",fg_color="#bdSb15",hover_color="#bdSb15")
-reset_button.place(x=200,y=300)
-
-
-
-
-
-app.mainloop()
+# Start the main loop
+window.mainloop()
