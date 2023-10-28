@@ -1,5 +1,4 @@
-import tkinter as tk
-
+import tkinter as tk #importing library
 # Manually defined exchange rates (as of a specific date, not up-to-date)
 exchange_rates = {
     "USD": 1.0,
